@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 
 def transformation_matrix(x_vector, y_vector, translation, spacing):
@@ -22,12 +22,12 @@ def transformation_matrix(x_vector, y_vector, translation, spacing):
     matrix : array
 
     """
-    matrix = numpy.zeros((4, 4), dtype=numpy.float)
+    matrix = np.zeros((4, 4), dtype=np.float64)
     matrix[:3, 0] = x_vector
     matrix[:3, 1] = y_vector
-    z_vector = numpy.cross(x_vector, y_vector)
+    z_vector = np.cross(x_vector, y_vector)
     matrix[:3, 2] = z_vector
-    matrix[:3, 3] = numpy.array(translation)
+    matrix[:3, 3] = np.array(translation)
     matrix[3, 3] = 1.0
 
     # make sure that we can append to spacing
@@ -55,9 +55,9 @@ def rotation_matrix(angle, axis):
     -------
     matrix : array
     """
-    c = numpy.cos(angle)
-    s = numpy.sin(angle)
-    matrix = numpy.zeros((3, 3))
+    c = np.cos(angle)
+    s = np.sin(angle)
+    matrix = np.zeros((3, 3))
     matrix[0, 0] = c + axis[0] ** 2 * (1 - c)
     matrix[0, 1] = axis[0] * axis[1] * (1 - c) - axis[2] * s
     matrix[0, 2] = axis[0] * axis[2] * (1 - c) + axis[1] * s
@@ -95,9 +95,9 @@ def normalise_positions_for_transform(*args):
     if len(args) == 3:
         positions = [*args, 1]
     elif len(args) == 1:
-        positions = numpy.atleast_2d(args[0])
-        w_array = numpy.expand_dims(numpy.ones(positions.shape[:-1]), axis=-1)
-        positions = numpy.append(positions, w_array, axis=-1)
+        positions = np.atleast_2d(args[0])
+        w_array = np.expand_dims(np.ones(positions.shape[:-1]), axis=-1)
+        positions = np.append(positions, w_array, axis=-1)
     else:
         raise ValueError("Unrecognised form for input args")
 
