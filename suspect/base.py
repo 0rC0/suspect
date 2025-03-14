@@ -265,7 +265,7 @@ class ImageBase(np.ndarray):
                        + JJ[..., np.newaxis] * col_vector \
                        + KK[..., np.newaxis] * slice_vector + centre
 
-        image_coords = self.from_scanner(space_coords).reshape(*space_coords.shape)[..., ::-1].astype(np.int)
+        image_coords = self.from_scanner(space_coords).reshape(*space_coords.shape)[..., ::-1].astype(int)
         resampled = scipy.interpolate.interpn([np.arange(dim) for dim in self.shape],
                                               self,
                                               image_coords,
